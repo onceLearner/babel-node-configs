@@ -1,0 +1,41 @@
+{
+  "name": "p1",
+  "version": "1.0.0",
+  "description": "node js config with babel",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf dis/ && babel src --out-dir dist",
+    "start_build": "npm run build && node dist/index.js",
+    "dev": "nodemon --exec npm run start_build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "reda",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.12.0",
+    "@babel/core": "^7.12.0",
+    "@babel/preset-env": "^7.12.0",
+    "nodemon": "^2.0.5",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "nodemonConfig": {
+    "exec": "npm run  dev",
+    "watch": [
+      "src/*"
+    ],
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules",
+      "dist"
+    ]
+  }
+}
