@@ -1,0 +1,217 @@
+
+=======================================Summary============================
+
+====> awalan nodemon to watch changes , tanian namse7 past compiled code  , talitan compile src stuff to dist dir , rabi3an execut node comman on the compiled file 
+
+lets sum up every things :
+
+
+1 - install everything you need :
+
+npm i --save-dev @babel/core @babel/cli @babel/preset-env rimraf nodemon 
+
+2- config package.json :
+
+
+{
+..
+"scripts" : {
+ "build" : "rimraf dist/  && babel src --out-dir dist ",
+ "start_build" : "npm run buil && node dist/index.js ",
+ "dev"         : "nodemon --exec npm run start_build " 
+
+
+
+}
+
+
+
+...
+"babel" : {
+   "presets" : ["@babel/preset-env"]
+ }
+
+"nodemonConfig" : {
+"ignore" : ["dist/*", "node_modules/*"],
+"watch"  : ["src"],
+"exec":  "npm run buil "
+}
+
+}
+
+
+
+
+
+
+
+===================Explanation===================================
+
+
+
+
+the problem is that node doesn't support  all es version , example it 
+doesn't support al es6 features , you can't do "import ... from ..."
+ => so to that to work , we have to compile our code from to a version
+that node can understand : Transpiller 
+we will use  Babel ;
+
+so first , install all dev dependecies : 
+npm i --save-dev @babel/core @babel/cli @babel/preset-env 
+
+then : eithter create a file .babelrc ,or inculde than inside package.json
+using "babel" : {"presets" : ["@babel/preset-env"] }
+
+OK , 
+
+Now we have to tell our npm script to run babel before executing our file.js
+
+ for this , we will create a folder called :'dist' (distination )
+where our compliled file will be laying , but , the problem  is 
+that each time we do a chane we have to remove this file, and replace 
+it with the new compiled file ; 
+Here we use "rimraf" lib , which comes from rm-rf of the unix system;
+
+npm i --save-dev rimraf ;
+
+( --save-dev in place of --save is to separate logic of stuff we use only to buld files and stuff, from things we use to help us in code ex express loadash ..)
+
+
+=> Ok 
+ all we have to do is to  write scripts  to run the babel ;
+
+
+ so , in scripts property in package.json   that will happen:
+
+
+1=> we will delete all files in dist/  : rimraf dist/* 
+2=> we will: run babel src --out-dir dis : this commnan is self explanatory: so we will execute babel on our src directory and order it to output our file in the dist directory;
+3=> just run normal node command on the compliled file in dist/ , node dist/index.js
+
+sum up:
+
+"Command ": "rimraf dist/ && babel src out-dir dist & node dist/index.js"
+
+but actually what we do , is that the devide this into multiple 
+scripts :
+
+"build" : "rimraf dist/ && babel src out-dir dist ",
+"dev"   : " npm run build && node dist/index.js "
+
+
+=> ok 
+this is will work like a Charm ;
+but the problem is that whenever you make a change, you have to restart
+the commands ; 
+
+solution : nodemon 
+ nodemon is like a watcher , it watches the changes , ignore soms, the run the commnads to rebuild;
+
+
+
+
+so 
+npm i --save-dev nodemon 
+
+
+we either create .nodemonrc or we add config to package.json  like :
+
+
+"nodemanConfi" : {
+"ignore" :["dist/*", "node_modules/*" ],
+"watch" : ["src/*"],
+"exec" : "npm run dev "
+
+}
+
+
+, 
+
+
+Ok please just bear with me this is the last thing , 
+so now that we added nodemon, we have to add it to our script 
+
+nodemon --exec npm run dev 
+
+in cmd :nodemon filename.js : will watch this file 
+
+
+
+the best thing you can do , is that you tranform "dev" script to 
+the main script for  nodemon ;
+so actually , you can have a ONE very long Command :
+
+"dev" : "nodemon exec-- rimraf dist/ && babel src --out-dir dist &&  node dist/index.js "
+
+separated :
+
+"build" :       "rimraf dist/ &&  babel src --out-dir dist "
+"start_buil" :   "npm run buil && node/index.js "
+"dev"        "    "nodemon --exec npm run start_buil "
+
+
+
+
+
+
+
+====> awalan nodemon to watch changes , tanian namse7 past compiled code  , talitan compile src stuff to dist dir , rabi3an execut node comman on the compiled file 
+
+lets sum up every things :
+
+
+1 - install everything you need :
+
+npm i --save-dev @babel/core @babel/cli @babel/preset-env rimraf nodemon 
+
+2- config package.json :
+
+
+{
+..
+"scripts" : {
+ "build" : "rimraf dist/  && babel src --out-dir dist ",
+ "start_build" : "npm run buil && node dist/index.js ",
+ "dev"         : "nodemon --exec npm run start_build " 
+
+
+
+}
+
+
+
+...
+"babel" : {
+   "presets" : ["@babel/preset-env"]
+ }
+
+"nodemonConfig" : {
+"ignore" : ["dist/*", "node_modules/*"],
+"watch"  : ["src"],
+"exec":  "npm run buil "
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
